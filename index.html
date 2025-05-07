@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Vòng tròn - Trường CĐCĐ Cà Mau</title>
+  <title>Bản đồ Công viên Hùng Vương</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Thư viện Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
   <style>
     #map {
-      height: 500px;
+      height: 600px; /* Chiều cao bản đồ */
     }
   </style>
 </head>
 <body>
-  <h3>Bản đồ: Trường Cao đẳng Cộng đồng Cà Mau</h3>
-  <div id="map"></div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
-    var map = L.map('map').setView([9.181264, 105.163052], 17);
+<h3>Bản đồ Công viên Hùng Vương</h3>
+<div id="map"></div>
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+<!-- Thư viện Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    // Vẽ vòng tròn màu xanh bao quanh Trường CĐCĐ Cà Mau
-    var circle = L.circle([9.181264, 105.163052], {
-      color: 'green',          // màu viền
-      fillColor: '#3f3',       // màu nền
-      fillOpacity: 0.3,        // độ trong suốt
-      radius: 50               // bán kính (mét), có thể điều chỉnh
-    }).addTo(map);
+<script>
+  // 1. Khởi tạo bản đồ tại vị trí gần trung tâm công viên
+  var map = L.map('map').setView([9.1783, 105.1514], 18);
 
-    // Thêm popup
-    circle.bindPopup("<b>Trường CĐCĐ Cà Mau</b>");
-  </script>
+  // 2. Thêm lớp nền bản đồ OpenStreetMap
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // 3. Vẽ đa giác tam giác cho Công viên Hùng Vương
+  var polygon = L.polygon([
+    [9.179463625592895, 105.15103970602608],
+    [9.176619813322873, 105.15095387533913],
+    [9.178441550433492, 105.15228961533566]
+  ], {
+    color: '#ff0000',       // Màu viền đỏ
+    fillColor: '#ffff00',   // Màu nền vàng
+    fillOpacity: 0.5,       // Độ trong suốt
+    weight: 4               // Độ rộng viền
+  }).addTo(map);
+
+  // 4. Gắn popup hiển thị tên công viên
+  polygon.bindPopup("Công viên Hùng Vương").openPopup();
+
+  // 5. Tự động zoom vừa vùng chứa tam giác
+  map.fitBounds(polygon.getBounds());
+</script>
+
 </body>
 </html>
